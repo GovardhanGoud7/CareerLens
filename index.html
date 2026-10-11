@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CareerLens compares resume keywords with a job description in your browser.">
+  <title>CareerLens | Resume & Skill Analyzer</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="CareerLens home">
+      <span class="brand-mark">CL</span>
+      <span>Career<span class="brand-light">Lens</span><small>RESUME & SKILL ANALYZER</small></span>
+    </a>
+    <nav class="top-actions" aria-label="Main actions">
+      <a href="#analyzer">Analyzer</a>
+      <a href="#how-it-works">How it works</a>
+      <button id="themeToggle" class="icon-button" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="status-dot"></span> YOUR CAREER, CLEARER</div>
+        <h1>Make your resume<br><span>job-ready.</span></h1>
+        <p>Compare your resume with a job description, discover keyword gaps, and get practical suggestions—all in your browser.</p>
+        <a class="primary-link" href="#analyzer">Analyze my resume <span aria-hidden="true">→</span></a>
+        <div class="trust-line"><span>✓</span> Browser-based analysis <span>✓</span> No account required</div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="floating-card resume-card">
+          <div class="mock-file"><span>CV</span><div><b>Resume.pdf</b><small>Candidate profile</small></div><span class="file-check">✓</span></div>
+          <div class="mock-line wide"></div><div class="mock-line"></div><div class="mock-line short"></div>
+          <div class="mock-section">SKILLS</div><div class="mock-tags"><i>Java</i><i>SQL</i><i>HTML</i></div>
+        </div>
+        <div class="floating-card score-card"><small>KEYWORD MATCH</small><div class="score-ring"><span>78<sup>%</sup></span></div><b>Good alignment</b><small class="green-text">12 skills matched</small></div>
+        <div class="spark spark-one">✦</div><div class="spark spark-two">✧</div>
+      </div>
+    </section>
+
+    <section class="stats-strip" aria-label="Project capabilities">
+      <div><span class="stat-icon">◎</span><span><b>Keyword matching</b><small>Compare role requirements</small></span></div>
+      <div><span class="stat-icon">⌁</span><span><b>Skill gap insights</b><small>Spot areas to improve</small></span></div>
+      <div><span class="stat-icon">↧</span><span><b>Exportable report</b><small>Download or print results</small></span></div>
+    </section>
+
+    <section id="analyzer" class="analyzer-section">
+      <div class="section-heading">
+        <div><div class="eyebrow">THE ANALYZER</div><h2>Find your next opportunity.</h2></div>
+        <p>Enter your resume and a target job description to create a personalized keyword report.</p>
+      </div>
+
+      <div class="input-grid">
+        <article class="panel input-panel">
+          <div class="panel-heading"><div class="step-number">01</div><div><h3>Your resume</h3><p>Add resume text or upload a plain-text file.</p></div></div>
+          <label class="field-label" for="resumeText">Resume content</label>
+          <textarea id="resumeText" rows="12" placeholder="Paste your resume here...&#10;&#10;Example: Computer Science graduate with Java, SQL, HTML, CSS, JavaScript and Git experience. Built a student portfolio website..."></textarea>
+          <div class="field-footer"><label class="upload-button" for="resumeFile">↑ Upload .txt resume</label><input id="resumeFile" type="file" accept=".txt,text/plain" hidden><span id="resumeCount">0 characters</span></div>
+          <div id="resumeFileName" class="file-name" aria-live="polite"></div>
+        </article>
+
+        <article class="panel input-panel">
+          <div class="panel-heading"><div class="step-number">02</div><div><h3>Target job description</h3><p>Paste the role requirements you want to match.</p></div></div>
+          <label class="field-label" for="jobText">Job description</label>
+          <textarea id="jobText" rows="12" placeholder="Paste the job description here...&#10;&#10;Example: Seeking a junior software developer with Java, object-oriented programming, SQL, REST APIs, Git and problem-solving skills."></textarea>
+          <div class="field-footer"><button id="loadSample" class="text-button" type="button">Use sample job ↗</button><span id="jobCount">0 characters</span></div>
+          <div class="tip-box"><span>ⓘ</span><span>For better results, include the job's responsibilities and required skills, not just its title.</span></div>
+        </article>
+      </div>
+
+      <div class="analyze-row">
+        <p><span class="privacy-icon">♢</span> Your text stays in this browser. Analysis is keyword-based.</p>
+        <button id="analyzeBtn" class="primary-button" type="button"><span>Analyze compatibility</span><span aria-hidden="true">→</span></button>
+      </div>
+      <p id="formMessage" class="form-message" role="alert"></p>
+
+      <section id="results" class="results-section" hidden aria-live="polite">
+        <div class="results-heading"><div><div class="eyebrow">YOUR REPORT</div><h2>Resume compatibility</h2><p id="reportMeta">Analysis summary</p></div><div class="result-actions"><button id="downloadReport" class="secondary-button" type="button">↓ Download report</button><button id="printReport" class="secondary-button" type="button">Print / PDF</button></div></div>
+        <div class="result-overview">
+          <article class="panel score-panel"><div class="score-ring large" id="resultRing"><span id="matchScore">0<sup>%</sup></span></div><h3 id="scoreTitle">Your match score</h3><p id="scoreDescription">Based on job keyword coverage.</p><div class="score-legend"><span><i class="legend-dot matched"></i>Matched keywords</span><span><i class="legend-dot missing"></i>Missing keywords</span></div></article>
+          <article class="panel metric-panel"><div class="metric-top"><div><small>JOB KEYWORDS FOUND</small><h3 id="matchedCount">0 <span>matched</span></h3></div><span class="metric-icon">✓</span></div><div class="progress-track"><div id="matchProgress" class="progress-fill"></div></div><div class="metric-bottom"><span>Keyword coverage</span><b id="coverageLabel">0%</b></div><hr><div class="metric-top"><div><small>RESUME SNAPSHOT</small><h3 id="wordCount">0 <span>words</span></h3></div><span class="metric-icon">▤</span></div><div class="resume-facts"><span>Characters <b id="charCount">0</b></span><span>Skills detected <b id="detectedCount">0</b></span></div></article>
+        </div>
+        <div class="detail-grid">
+          <article class="panel detail-panel"><div class="detail-heading"><span class="pill pill-green">✓ MATCHED</span><h3>Skills and keywords found</h3><p>These terms appear in both your resume and the job description.</p></div><div id="matchedSkills" class="skill-list"></div></article>
+          <article class="panel detail-panel"><div class="detail-heading"><span class="pill pill-amber">＋ OPPORTUNITY</span><h3>Potential skill gaps</h3><p>These job-related terms were not detected in your resume.</p></div><div id="missingSkills" class="skill-list"></div></article>
+        </div>
+        <article class="panel suggestions-panel"><div class="suggestion-heading"><span class="suggestion-icon">✦</span><div><h3>Recommended next steps</h3><p>Use these suggestions to strengthen your application honestly.</p></div></div><ul id="suggestionsList" class="suggestions-list"></ul><p class="disclaimer">CareerLens provides educational keyword insights only. A high score does not guarantee an interview. Only add skills you genuinely have.</p></article>
+        <div class="history-panel panel"><div><h3>Recent reports</h3><p>Saved locally on this device only.</p></div><button id="clearHistory" class="text-button danger-text" type="button">Clear history</button><div id="historyList" class="history-list"></div></div>
+      </section>
+    </section>
+
+    <section id="how-it-works" class="how-section">
+      <div class="section-heading"><div><div class="eyebrow">SIMPLE BY DESIGN</div><h2>Three steps to clarity.</h2></div><p>CareerLens helps you review the language in your resume before applying.</p></div>
+      <div class="steps-grid">
+        <article><div class="step-illustration">01</div><h3>Paste your details</h3><p>Provide your resume text and the job description you're targeting.</p></article>
+        <article><div class="step-illustration">02</div><h3>Review the match</h3><p>See overlapping terms, possible gaps, and a keyword coverage score.</p></article>
+        <article><div class="step-illustration">03</div><h3>Improve and export</h3><p>Make truthful improvements and save a report for your records.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><a class="brand footer-brand" href="#"><span class="brand-mark">CL</span><span>Career<span class="brand-light">Lens</span></span></a><p>Built for learning, career planning, and better resume preparation.</p><small>© <span id="year"></span> CareerLens · Browser-based educational project</small></footer>
+</body>
+</html>
